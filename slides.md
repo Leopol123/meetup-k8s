@@ -1,6 +1,6 @@
 ---
 theme: seriph
-background: images/cover.png
+background: ./images/cover.png
 title: Kubernetes OnPremise
 info: |
   Kubernetes on premise #RennesDevops
