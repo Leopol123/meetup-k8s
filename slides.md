@@ -4,9 +4,9 @@ background: images/cover.png
 title: Kubernetes OnPremise
 info: |
   Kubernetes on premise #RennesDevops
-addons:
-    - slidev-addon-excalidraw
-    - slidev-addon-asciinema
+# addons:
+#     - slidev-addon-excalidraw
+#     - slidev-addon-asciinema
 class: text-center
 # https://sli.dev/features/drawing
 drawings:
