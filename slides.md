@@ -19,6 +19,8 @@ mdc: true
 
 # Kubernetes on premise
 
+<Comp src="/cover.png" />
+
 La souverainté a un prix
 
 #RennesDevops 03/10/2024
