@@ -1,6 +1,6 @@
 ---
 theme: seriph
-background: ./images/cover.png
+background: ./cover.png
 title: Kubernetes OnPremise
 info: |
   Kubernetes on premise #RennesDevops
@@ -18,8 +18,6 @@ mdc: true
 ---
 
 # Kubernetes on premise
-
-<Comp src="/cover.png" />
 
 La souverainté a un prix
 
