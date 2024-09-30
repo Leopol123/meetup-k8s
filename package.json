@@ -12,8 +12,7 @@
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
     "devicon": "^2.16.0",
-    "vue": "^3.4.38",
-    "slidev-addon-excalidraw": "1.0.4"
+    "vue": "^3.4.38"
 
   },
   "devDependencies": {
