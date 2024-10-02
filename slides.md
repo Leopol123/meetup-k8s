@@ -150,11 +150,11 @@ layout: center
 
 # Un cluster pour les gouverner tous
 
-L'application Rancher va être installer sur un cluster RKE2 provisionnée par Ansible. Ce principe de "seed" se retrouve dans la majorité des systèmes de déploiement automatisés de K8S.
+L'application Rancher va être installée sur un cluster RKE2 provisionnée par Ansible. Ce principe de "seed" se retrouve dans la majorité des systèmes de déploiement automatisés de K8S.
 
-Il va être utiliser pour:
+Il va être utilisé pour:
   * provisionner les autres clusters
-  * servir de point d'entrées pour tous les appels API vers les autres clusters
+  * servir de point d'entrée pour tous les appels API vers les autres clusters
   * installation d'Argocd qui va permettre de pousser les ressources vers les autres clusters
 
 <div class="flex flex-col items-center">
@@ -525,7 +525,7 @@ transition: fade-out
 
 # Gestion des secrets
 
-Pour éviter les secrets dans le code déployé pour le cluster, deux applicactions sont utilisés:
+Pour éviter les secrets dans le code déployé pour le cluster, deux applicactions sont utilisées:
   * cert-manager
   * external-secret
 
@@ -538,7 +538,7 @@ transition: fade-out
   - outil très largement utilisé même en dehors des cluster "On Premise" pour générer des certificats pour les services avec renouvellement automatique
   - compatible avec de nombreuses PKI, utilisé avec Vault pour la CA interne et OVH (via let's encrypt) pour les certificats publiques
   - principe de fonctionnement
-    - on déclare des CRD "issuers" ou "clusters issuers" qui feront les demandes de certiicats
+    - on déclare des CRD "issuers" ou "clusters issuers" qui feront les demandes de certificats
     - on place des annotations sur les services ou ingress qui ont besoin d'un certificat
     - le certificat est généré sous forme de secret
 
@@ -711,7 +711,7 @@ transition: fade-out
 - permet de déplacer des ressources vers un autre cluster et par extension de faire du disaster recovery
 - possibilité de déclencher des pre-hooks/post-hooks pour que l'application soit sauvegardée dans un état stable
 - tout se fait en CLI pour la manipulation des sauvegardes
-- les sauvegardes des volumes persistants sont réalisés via restic/kopia
+- les sauvegardes des volumes persistants sont réalisées via restic/kopia
 - sauvegarde sur un serveur minio
 
 <div class="absolute right-100px top-15px text-8xl">
@@ -787,9 +787,9 @@ transition: fade-out
 # Monitoring
 - Rancher se base sur un prometheus operator (Prometheus + Grafana + Alertmanager)
 - chaque cluster déployé par rancher a donc sa propre stack Prometheus consultable via la GUI de Rancher (pratique en cas de délégation)
-- le thanos du cluster a deux jours de rétention sur les métriques et ce Thanos est publié via un ingress sur le SI
-- le serveur Thanos central vient pull les métriques avec une rétention plus grande de quelques semaines
-- le même procédé est utilisé pour les alertes qui sont envoyés à notre alertmanager central en push
+- le thanos du cluster a deux jours de rétention sur les métriques et ce Thanos est publié via un ingress sur le SI pour les données "immédiates"
+- le serveur Thanos du clster vient push les métriques sur le central pour une rétention plus grande (quelques semaines)
+- le même procédé est utilisé pour les alertes qui sont envoyées à notre alertmanager central en push
 
 
 ---
