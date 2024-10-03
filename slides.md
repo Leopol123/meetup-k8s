@@ -24,7 +24,7 @@ La souverainté a un prix
 #RennesDevops 03/10/2024
 
 <!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
+Intro: racontez les étapes pour avoir monter un cluster OnPremise, s'excuser pour les slides en FR...
 -->
 
 ---
@@ -72,7 +72,7 @@ layout: two-cols
 
 
 <!--
-Pas de twitter...
+Pas de twitter... ni insta... ni facebook mais je suis sur Linkedin !
 -->
 
 
@@ -92,6 +92,8 @@ layout: center
 
 # Comment choisir sa distibution Kubernetes ?
   * Il existe de (très) nombreuses distributions Kubernetes
+<v-clicks>
+
   * Les distributions payantes ont été écartées pour ce projet
   * Les différents facteurs de choix:
     * *L'infrastructure va-t-elle tourner en production ?*
@@ -99,7 +101,17 @@ layout: center
     * *Quelle est la méthode de déploiement que je souhaite utiliser (scripting, ansible, terraform, autres...) ?*
     * *Y a-t-il un besoin de multi-tenant ?*
 
-**Il a été retenu que la solution tournerait en production sur VMware et potentillement Openstack. La méthode de déploiement n'est pas arrêtée mais il fallait pouvoir ouvrir la solution à plusieurs équipes.**
+</v-clicks>
+
+<v-click>
+
+**Le cahier des charges. La solution doit tourner en production sur VMware et potentillement Openstack. La méthode de déploiement est laissée libre. Il faut pouvoir ouvrir la solution à plusieurs équipes.**
+
+</v-click>
+
+<!--
+Point par point
+-->
 
 ---
 transition: fade-out
@@ -118,6 +130,7 @@ layout: center
 
 </v-clicks>
 <!--
+A la main, il faut comprendre comment cela fonctionne
 Kubestray: gère beaucoup de sortes de déployment, bcp trop... C'est très compliqué de s'y retrouver dans l'organisation des playbooks et des variables
 OKD: L'éidée est séduisante mais la mise en application a été compliqué et n'a jamais abouti
 Rancher/RKE2
@@ -131,13 +144,17 @@ layout: center
 
 # Le choix Rancher
   * La simplicité de créer un cluster RKE2
+<v-clicks>
+
   * Le support des deux hyperviseurs candidats à l'hébergement de Kubernetes
     * VMware sur un cluster VXRail
     * Openstack
   * La présence d'un module Terraform bien documenté
-  * Le support d'une authentification OIDC
+  * Le support d'une authentification OIDC avec une bonne granularité sur la gestion des droits
   * La notion de "projet" qui permet de déléguer une partie d'un cluster (droits + limitation de ressources CPU/RAM/DISK) à une équipe
   * Les différents outils packagés via des helm charts ou autres qui facilitent la mise en oeuvre
+
+</v-clicks>
 
 <div class="absolute right-100px top-60px text-6xl">
   <devicon-rancher-wordmark/><ic-baseline-plus class="px 30"/><devicon-terraform-wordmark class="px 30"/>
@@ -157,6 +174,8 @@ Il va être utilisé pour:
   * servir de point d'entrée pour tous les appels API vers les autres clusters
   * installation d'Argocd qui va permettre de pousser les ressources vers les autres clusters
 
+<v-click>
+
 <div class="flex flex-col items-center">
 <Excalidraw
   drawFilePath="./excalidraw/seed.excalidraw.json"
@@ -165,6 +184,8 @@ Il va être utilisé pour:
   :background="false"
 />
 </div>
+
+</v-click>
 
 <!--
 Le point d'entrée unique est débrayable
@@ -249,31 +270,31 @@ Ce composant est à choisir en fonction de votre stockage, chaque fabriquant a d
 Les CSI utilisés:
 
 
-<div class="grid grid-cols-2 gap-x-15 gap-y-0">
+<div class="grid grid-cols-2 gap-x-15 gap-y-5">
   <v-click>
-  <div class="text-xs">
+  <div class="text-base">
     - Astra Trident de Netapp: déployé via un operator, très complet, supporte le iSCSI et le NFS, définie plusieurs backends avec différentes caractéristiques (QoS,...)
   </div>
   <div class="justify-self-stretch">
 
-  ![](./images/netapp.png){width=30px}
+  ![](./images/netapp.png){width=50px}
 
   </div>
   </v-click>
 
   <v-click>
-  <div class="text-xs">
+  <div class="text-base">
   - Longhorn de Rancher Labs, permet d'utiliser l'espace disque local de chaque node du cluster et réparti les volumes Kubernetes sur l'ensemble des noeuds pour la redondance
   </div>
   <div>
 
-  ![](./images/longhorn.png){width=30px}
+  ![](./images/longhorn.png){width=50px}
 
   </div>
   </v-click>
 
   <v-click>
-  <div class="text-xs">
+  <div class="text-base">
   - Et beaucoup d'autres, expérience avec Portworx (Purestorage), nfs-provisioner
   </div>
   </v-click>
@@ -475,7 +496,7 @@ transition: fade-out
 
 <div class="flex flex-row">
 
-<div class="text-xs pr-12">
+<div class="text-base pr-12">
 
   - [application](https://github.com/kubernetes-sigs/external-dns) qui va créer une entrée DNS pour les services K8S
   - compatible avec une trentaine de serveurs DNS
@@ -629,6 +650,10 @@ transition: fade-out
 
 </div>
 
+<!--
+Plus lisible que SOPS
+-->
+
 ---
 layout: center
 transition: fade-out
@@ -720,6 +745,9 @@ transition: fade-out
 
 </div>
 
+<!--
+Expliquer les pre-hook/post-hook
+-->
 
 ---
 layout: center
@@ -786,10 +814,10 @@ transition: fade-out
 
 # Monitoring
 - Rancher se base sur un prometheus operator (Prometheus + Grafana + Alertmanager)
-- chaque cluster déployé par rancher a donc sa propre stack Prometheus consultable via la GUI de Rancher (pratique en cas de délégation)
-- le thanos du cluster a deux jours de rétention sur les métriques et ce Thanos est publié via un ingress sur le SI pour les données "immédiates"
-- le serveur Thanos du clster vient push les métriques sur le central pour une rétention plus grande (quelques semaines)
-- le même procédé est utilisé pour les alertes qui sont envoyées à notre alertmanager central en push
+- Chaque cluster déployé par rancher a donc sa propre stack Prometheus consultable via la GUI de Rancher (pratique en cas de délégation)
+- Le thanos du cluster a deux jours de rétention sur les métriques et ce Thanos est publié via un ingress sur le SI pour les données "immédiates"
+- Le serveur Thanos du cluster vient push les métriques sur le central pour une rétention plus grande (quelques semaines)
+- Le même procédé est utilisé pour les alertes qui sont envoyées à notre alertmanager central en push
 
 
 ---
@@ -837,7 +865,8 @@ transition: fade-out
 
 # Création d'un cluster
 
-```mermaid {theme: 'forest', scale: 0.42}
+```mermaid {theme: 'forest', 'themeVariables': { 'fontSize': '30px'}, scale: 0.42}
+
 sequenceDiagram
     title Workflow: Creation of a new C-Meetup Cluster
     participant Terraform as <br />Terraform<br />Tool
@@ -873,11 +902,36 @@ transition: fade-out
 
 # Demo
 
+
 ---
 layout: center
 transition: fade-out
 ---
 
-# Merci de votre attention
+# Conclusion de la mise en place
 
-# Questions ?
+
+---
+layout: center
+transition: fade-out
+---
+
+# Merci de votre attention 
+
+<div class="flex flex-row justify-center content-center gap-x-50 items-center">
+
+<div class="text-3xl text-center">
+
+  ![Questions](./questions.png){width=200px}
+
+</div>
+
+  <div>
+
+  QRCode des slides:
+
+  ![QRCode](./qr-code.png){width=200px}
+    
+  </div>
+
+</div>
