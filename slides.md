@@ -922,7 +922,7 @@ transition: fade-out
 
 <div class="text-3xl text-center">
 
-  ![Questions](./questions.png){width=200px}
+  ![Questions](./images/questions.png){width=200px}
 
 </div>
 
@@ -930,7 +930,7 @@ transition: fade-out
 
   QRCode des slides:
 
-  ![QRCode](./qr-code.png){width=200px}
+  ![QRCode](./images/qr-code.png){width=200px}
     
   </div>
 
